@@ -16,9 +16,9 @@ There is an option to run the code in parallel using openmp. therefore it needs 
 makefile
 -------
 
-shell_iso_hw is an executable file that is created by typing on the command line: 
+shell_aniso_hw is an executable file that is created by typing on the command line: 
 
-    make shell_iso_hw
+    make shell_aniso_hw
 
 in certain cases, you might need to change the home directory for gsl header files and libraries. often for example from /usr/lib to /usr/local/lib and /usr/lib/include to /usr/local/lib/inlclude. 
 
@@ -84,12 +84,12 @@ the code will dump on the terminal the values of phi_n and n_n for a given scale
 output files
 ------------
 + rslts.txt 
-for each of the N shells:  k_n, phi_n^2, n_n^2 (delimited by tabs) are recorded line after line.. 
-at each time step up to tmax the recording continues without any seperation. so there are tmax/dt*N rows and three columns. 
+for each of the N shells:  k_n, phi^Y_n^2,phi^0_n^2,phi^X_n^2,  n^Y_n^2, n^0_n^2, n^X_n^2  (delimited by tabs) are recorded line after line.. 
+at each time step up to tmax the recording continues without any seperation. so there are tmax/dt*N rows and seven columns. 
 
 +efgh.txt
-for each of the N shells:  k_n ,  E = phi_n^2*k, F = n_n^2/k, Gamma = imag(conj(phi_n*n_n), and H = real(conj(phi_n*n_n) are recorded line after line..
-at each time step up to tmax the recording continues without any seperation. so	there are tmax/dt*N rows and five columns.	 
+for each of the N shells:  k_n ,  E^Y = phi^Y_n^2*k,E^0 = phi^0_n^2*k,E^X = phi^X_n^2*k, F^Y = n^Y_n^2/k, F^0 =n^0_n^2/k,F^X =n^X_n^2/k,Gamma^Y = imag(conj(phi^Y_n^Y*n^Y_n),Gamma^0 = imag(conj(phi^0_n*n^0_n),Gamma^X = imag(conj(phi^X_n^X*n^X_n),   and H^Y = real(conj(phi^Y_n^Y*n^Y_n), H^0, adn H^X are recorded line after line..
+at each time step up to tmax the recording continues without any seperation. so	there are tmax/dt*N rows and eleven columns.	 
 
 
 Plotting the results 
