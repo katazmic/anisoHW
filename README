@@ -1,0 +1,99 @@
+
+This is a README file for compling and running the anisotropic goy shell model on a hasegawa wakatani system 
+
+---------------------
+MAKING THE EXECUTIBLE
+--------------------- 
+ 
+Prerequisits
+-----------
++GSL
+The code requires that gsl be installed and set up in hte system. It is used in integrating the ordinary differential equations. the tolerence is hard coded in the file work.cpp nad can be modified if desires. the variables are eps_abs adn eps_rel for the absolute and relative errors respectively. The solver chosen is a runge kutta. 
+
++OpenMP
+There is an option to run the code in parallel using openmp. therefore it needs to be installed. Specifying the number of threads can be done with the input file and discussed in the next section. 
+
+makefile
+-------
+
+shell_iso_hw is an executable file that is created by typing on the command line: 
+
+    make shell_iso_hw
+
+in certain cases, you might need to change the home directory for gsl header files and libraries. often for example from /usr/lib to /usr/local/lib and /usr/lib/include to /usr/local/lib/inlclude. 
+
+
+----------
+INPUT FILE
+----------
+
+This is where the paramters are all determined 
+
+shell model
+----------
+you need to specify the the following values where the default values are given in brakets in this readme file:
+
+1) Number of Shells [30]       
+
+2) Minimum scale (k min) [0.03]   
+
+3) Maximum scale (k max)   [17305]
+
+
+HW equations 
+-----------
+the following parameters are part of the hw equation and can be modified by the user
+
+1) C       [1]
+is the parallel electron conduction rate
+
+2) kappa   [1]
+is the normalized denisty gradient
+
+3) musmFac [0.01]  
+is the small scale dissipation factor where the dissipation is musmFac*k_min^6
+
+4) mubgFac [10]
+is the large scale dissipation factor where the dissipation is mubgFac*k_max^-4
+
+5) forcing [0.0]
+this is the additional forcing added on to the unstable shells. Only a small value to be used if C/kappa >>1 otherise HW equations are self consistent. 
+
+
+
+integration and openMP
+---------------------
+
+for specifying the integration parameters and number of threads for opemMP you need to specify
+
+1) Num of threads  [1] 
+depending on yout computer and number of nodes available. 
+
+2) dt       [20]
+is the time step for which the code will record the output. gsl is an adaptive time stepper but specifying dt is just for recording purposes
+
+3) t max    [150000]
+the code will continue to integrate the equations up to reaching the time t amx. resulting in t max/dt recordings
+
+------
+OUTPUT
+------
+
+the code will dump on the terminal the values of phi_n and n_n for a given scale k_n for each at the given value t. as well as two files efgh.txt and rslts.txt 
+
+output files
+------------
++ rslts.txt 
+for each of the N shells:  k_n, phi_n^2, n_n^2 (delimited by tabs) are recorded line after line.. 
+at each time step up to tmax the recording continues without any seperation. so there are tmax/dt*N rows and three columns. 
+
++efgh.txt
+for each of the N shells:  k_n ,  E = phi_n^2*k, F = n_n^2/k, Gamma = imag(conj(phi_n*n_n), and H = real(conj(phi_n*n_n) are recorded line after line..
+at each time step up to tmax the recording continues without any seperation. so	there are tmax/dt*N rows and five columns.	 
+
+
+Plotting the results 
+--------------------
+
+plotting_cl1.py and plotting_cg1.py are python scripts for plotting the results of E, F and Gamma which are the data from efgh.txt
+the expcted spectra lines are drawn for the special case and need to be adjusted according to the runs. 
